@@ -1,0 +1,354 @@
+<!-- Baseline Design -->
+
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerson Ltd | High-Velocity Digital Execution</title>
+    <meta name="description" content="Strategic product engineering and delivery for teams that need to move fast. Gerson Ltd focuses on execution, shipping, and systems thinking.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af; /* Deeper, more active blue */
+            --primary-dark: #1e1b4b;
+            --bg: #f3f4f6;
+            --text-main: #111827;
+            --card: #ffffff;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            font-size: 1rem;
+        }
+        .nav-fixed {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 2px solid #e5e7eb;
+            padding: 0.75rem 0;
+        }
+        header {
+            background: #111827;
+            color: #ffffff;
+            text-align: left;
+            padding: 8rem 1.5rem 10rem 1.5rem;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+        }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+        }
+        .action-box {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 2px solid #f3f4f6;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+            position: relative;
+        }
+        .action-box:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .action-tag {
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            display: inline-block;
+        }
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        section { scroll-margin-top: 100px; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Minimalist Navigation -->
+    <nav class="nav-fixed">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="font-black text-xl tracking-tighter text-slate-900">
+                GERSON<span class="text-blue-600">.</span>LTD
+            </a>
+            <div class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest text-slate-500">
+                <a href="#track-record" class="hover:text-blue-600 transition-colors">Track Record</a>
+                <a href="#execution" class="hover:text-blue-600 transition-colors">Execution</a>
+                <a href="#contact" class="hover:text-blue-600 transition-colors">Contact</a>
+            </div>
+            <a href="#contact" class="bg-slate-900 text-white px-6 py-2.5 rounded font-bold text-xs uppercase tracking-widest hover:bg-blue-700 transition-all">
+                Let's Build
+            </a>
+        </div>
+    </nav>
+
+    <!-- Impact Header -->
+    <header>
+        <div class="max-w-6xl mx-auto px-6">
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9]">
+                Systems Thinking.<br>
+                <span class="text-blue-500">High-Velocity</span> Execution.
+            </h1>
+            <p class="text-xl md:text-2xl font-medium text-slate-400 mb-12 max-w-2xl leading-relaxed">
+                Pragmatic digital transformation for teams that need to move fast without losing the vision. No fluff. Just momentum.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#contact" class="inline-block bg-blue-600 text-white px-8 py-4 rounded font-bold text-lg hover:bg-blue-500 transition-all">
+                    Start Your Engagement
+                </a>
+                <a href="#execution" class="inline-block border border-slate-700 text-slate-300 px-8 py-4 rounded font-bold text-lg hover:border-slate-500 transition-all">
+                    View Execution Pathways
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 -mt-16 relative z-10 pb-20">
+        
+        <!-- The Track Record Section -->
+        <section id="track-record" class="card">
+            <div class="grid lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-2">
+                    <h2 class="text-blue-600 text-xs font-black uppercase tracking-[0.2em] mb-4">Track Record</h2>
+                    <h3 class="text-3xl font-bold mb-6">Built for speed, aligned for scale.</h3>
+                    <p class="text-slate-600 text-lg mb-8">
+                        I specialize in unblocking product engineering teams. Over 14 years, I've led transformations that turned stalled roadmaps into high-performing delivery engines. I don't just "consult"—I embed, analyze, and execute.
+                    </p>
+                    <div class="grid grid-cols-2 gap-8 mt-12">
+                        <div>
+                            <div class="text-4xl font-black text-slate-900 tracking-tighter">14+</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Years of Execution</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-black text-slate-900 tracking-tighter">40+</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Client Wins</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-8 rounded-lg border border-slate-100 h-fit">
+                    <h4 class="font-bold text-xs uppercase tracking-widest text-slate-400 mb-6">Expertise Stack</h4>
+                    <ul class="space-y-4 text-sm font-bold text-slate-700">
+                        <li class="flex justify-between border-b border-slate-200 pb-2"><span>MVP Shaping</span> <span class="text-blue-600">●</span></li>
+                        <li class="flex justify-between border-b border-slate-200 pb-2"><span>AI Workflows</span> <span class="text-blue-600">●</span></li>
+                        <li class="flex justify-between border-b border-slate-200 pb-2"><span>Systems Thinking</span> <span class="text-blue-600">●</span></li>
+                        <li class="flex justify-between border-b border-slate-200 pb-2"><span>Internal Alignment</span> <span class="text-blue-600">●</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Execution Pathways Section -->
+        <section id="execution" class="card">
+            <div class="mb-12">
+                <h2 class="text-blue-600 text-xs font-black uppercase tracking-[0.2em] mb-4">Execution Pathways</h2>
+                <h3 class="text-3xl font-bold">What we build together.</h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="action-box" onclick="fillForm('Strategic Diagnostic – £450')">
+                    <span class="action-tag">The Blueprint</span>
+                    <div class="font-bold text-xl mb-2">Strategic Diagnostic – £450</div>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-4">
+                        A 90-minute strike to identify bottlenecks. You walk away with a prioritized execution roadmap.
+                    </p>
+                    <div class="text-blue-600 font-bold text-sm">Select Pathway →</div>
+                </div>
+                <div class="action-box" onclick="fillForm('Advisory Sprint – £1,200/day')">
+                    <span class="action-tag">The Build-out</span>
+                    <div class="font-bold text-xl mb-2">Advisory Sprint – £1,200/day</div>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-4">
+                        Embedded support to unblock a specific launch or feature. Targeted, hands-on, and outcome-led.
+                    </p>
+                    <div class="text-blue-600 font-bold text-sm">Select Pathway →</div>
+                </div>
+                <div class="action-box" onclick="fillForm('AI-Native MVP – from £12,000')">
+                    <span class="action-tag">The Prototype</span>
+                    <div class="font-bold text-xl mb-2">AI-Native MVP – from £12,000</div>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-4">
+                        From concept to functional demo in 21 days. We build the core logic so you can ship the value.
+                    </p>
+                    <div class="text-blue-600 font-bold text-sm">Select Pathway →</div>
+                </div>
+                <div class="action-box" onclick="fillForm('Momentum Retainer – £2,400/mo')">
+                    <span class="action-tag">The Engine</span>
+                    <div class="font-bold text-xl mb-2">Momentum Retainer – £2,400/mo</div>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-4">
+                        Continuous strategic oversight for founders who need high-velocity decision-making on tap.
+                    </p>
+                    <div class="text-blue-600 font-bold text-sm">Select Pathway →</div>
+                </div>
+            </div>
+
+            <div class="mt-16 pt-12 border-t border-slate-100">
+                <h4 class="font-black text-slate-900 mb-8 uppercase text-xs tracking-widest">Career Acceleration</h4>
+                <div class="grid md:grid-cols-3 gap-6 text-sm">
+                    <div class="p-6 border-2 border-slate-50 bg-slate-50 rounded-lg hover:bg-white hover:border-blue-600 transition-all cursor-pointer group" onclick="fillForm('Result-Driven Coaching – £150/hr')">
+                        <div class="font-bold mb-1">Performance Coaching</div>
+                        <div class="text-blue-600 font-black text-lg">£150/hr</div>
+                    </div>
+                    <div class="p-6 border-2 border-slate-50 bg-slate-50 rounded-lg hover:bg-white hover:border-blue-600 transition-all cursor-pointer group" onclick="fillForm('CV Optimization – £195')">
+                        <div class="font-bold mb-1">CV Optimization</div>
+                        <div class="text-blue-600 font-black text-lg">£195</div>
+                    </div>
+                    <div class="p-6 border-2 border-slate-50 bg-slate-50 rounded-lg hover:bg-white hover:border-blue-600 transition-all cursor-pointer group" onclick="fillForm('Interview Simulation – £150/hr')">
+                        <div class="font-bold mb-1">Interview Simulation</div>
+                        <div class="text-blue-600 font-black text-lg">£150/hr</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="validation" class="card">
+            <h2 class="text-blue-600 text-xs font-black uppercase tracking-[0.2em] mb-12">Validation</h2>
+            <div class="space-y-16">
+                <blockquote class="border-l-4 border-blue-600 pl-8">
+                    <p class="text-2xl font-light text-slate-800 leading-snug mb-4">“Steven brought a new and dynamic way of thinking... challenged convention, with the outcome of genuine business improvements.”</p>
+                    <footer class="text-[10px] font-black text-slate-400 uppercase tracking-widest">— Mike G, CRO</footer>
+                </blockquote>
+                <blockquote class="border-l-4 border-slate-300 pl-8">
+                    <p class="text-2xl font-light text-slate-800 leading-snug mb-4">“Steven was great at maintaining product direction while dealing with competing stakeholder needs.”</p>
+                    <footer class="text-[10px] font-black text-slate-400 uppercase tracking-widest">— Vaughan S, CTO & Co-founder</footer>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="card">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div>
+                    <h3 class="text-4xl font-black mb-6">Let's build momentum.</h3>
+                    <p class="text-slate-500 text-lg mb-8 leading-relaxed">
+                        Ready to unblock your roadmap? Fill out the form and I will respond personally within 24 hours to schedule our first session.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3 text-sm font-bold text-slate-700">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span>Currently accepting new engagements</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="contactForm" class="space-y-6">
+                    <input type="hidden" name="access_key" value="4bd60e14-2a03-4ea3-9a7c-d8329ee5b4c7">
+                    <div>
+                        <input type="text" name="name" required placeholder="Full Name" class="form-input">
+                    </div>
+                    <div>
+                        <input type="email" name="email" required placeholder="Email Address" class="form-input">
+                    </div>
+                    <div>
+                        <textarea id="message" name="message" required placeholder="What are we unblocking?" rows="5" class="form-input resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded font-bold text-lg hover:bg-blue-600 transition-all flex items-center justify-center">
+                        <span id="btnText">Initiate Contact</span>
+                        <div id="loader" class="hidden w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin ml-3"></div>
+                    </button>
+                    <div id="result" class="text-center text-xs font-bold uppercase tracking-widest mt-4"></div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-16">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
+            <div>
+                <div class="font-black text-2xl text-slate-900">GERSON<span class="text-blue-600">.</span>LTD</div>
+                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Built for Speed. Aligned for Scale.</p>
+            </div>
+
+            <!-- Site Variant Switcher -->
+            <div class="flex flex-col items-center space-y-3">
+                <div class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-300">Perspective Switch</div>
+                <div class="flex items-center space-x-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    <a href="index.html" class="hover:text-blue-600 transition-colors">Strategic</a>
+                    <span class="text-slate-200">/</span>
+                    <span class="text-blue-600 cursor-default">Execution</span>
+                    <span class="text-slate-200">/</span>
+                    <a href="israel.html" class="hover:text-blue-600 transition-colors">Systems</a>
+                </div>
+            </div>
+
+            <div class="text-[10px] font-bold text-slate-300 uppercase text-right">
+                © 2025 Gerson Ltd. Registered in England & Wales.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function fillForm(service) {
+            const msg = document.getElementById('message');
+            msg.value = "I am ready to move on the " + service + ". Let's discuss the immediate next steps to get this unblocked.";
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            msg.focus();
+        }
+
+        const form = document.getElementById('contactForm');
+        const result = document.getElementById('result');
+        const btnText = document.getElementById('btnText');
+        const loader = document.getElementById('loader');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            btnText.textContent = "Processing...";
+            loader.classList.remove('hidden');
+            result.style.opacity = '0';
+            
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(object)
+            })
+            .then(async (r) => {
+                let res = await r.json();
+                result.style.opacity = '1';
+                if (r.status === 200) {
+                    result.innerHTML = "<span class='text-blue-600'>✅ REQUEST TRANSMITTED. RESPONSE IN 24H.</span>";
+                    form.reset();
+                } else {
+                    result.innerHTML = "<span class='text-red-500'>ERROR: " + res.message + "</span>";
+                }
+            })
+            .catch(() => {
+                result.style.opacity = '1';
+                result.innerHTML = "<span class='text-red-500'>SYSTEM ERROR.</span>";
+            })
+            .then(() => {
+                btnText.textContent = "Initiate Contact";
+                loader.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
