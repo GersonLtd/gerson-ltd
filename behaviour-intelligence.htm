@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Behaviour Intelligence Framework</title>
+    <title>Behaviour Intelligence Framework &ndash; Gerson Ltd</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
@@ -342,21 +342,8 @@
         .layer-stack {
             display: flex;
             flex-direction: column;
-            gap: 0;
+            gap: 0.6rem;
             margin: 2rem 0;
-            position: relative;
-            padding-left: 3rem;
-        }
-
-        .layer-stack::before {
-            content: '';
-            position: absolute;
-            left: 1.1rem;
-            top: 1.5rem;
-            bottom: 1.5rem;
-            width: 2px;
-            background: linear-gradient(180deg, var(--primary-light), var(--primary), var(--primary-dark));
-            border-radius: 1px;
         }
 
         .layer-item {
@@ -367,7 +354,6 @@
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 10px;
-            margin-bottom: 0.65rem;
             position: relative;
             transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
@@ -378,29 +364,16 @@
             border-color: var(--primary-light);
         }
 
-        .layer-item::before {
-            content: '';
-            position: absolute;
-            left: -2.15rem;
-            width: 12px;
-            height: 12px;
-            background: var(--primary);
-            border: 3px solid var(--card);
-            border-radius: 50%;
-            box-shadow: 0 0 0 2px var(--primary-light);
-            z-index: 1;
-        }
-
         .layer-num {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: #fff;
-            border-radius: 7px;
-            font-size: 0.78rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
             font-weight: 700;
             flex-shrink: 0;
         }
@@ -552,8 +525,42 @@
             transform: translateY(0);
         }
 
-        /* Stagger children in diagrams */
-        .layer-stack .layer-item { transition-delay: calc(var(--i, 0) * 0.06s); }
+        /* ── Glossary panel ── */
+        .glossary {
+            background: linear-gradient(135deg, rgba(12,23,40,0.03), rgba(45,75,217,0.03));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .glossary h3 { margin-top: 0.5rem; }
+
+        .glossary dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.5rem 1.25rem;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .glossary dt {
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+            padding-top: 0.15rem;
+        }
+
+        .glossary dd {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        @media (max-width: 768px) {
+            .glossary dl { grid-template-columns: 1fr; gap: 0.15rem 0; }
+            .glossary dt { margin-top: 0.5rem; }
+        }
 
         /* ── Accessibility ── */
         .sr-only {
@@ -568,18 +575,116 @@
             border: 0;
         }
 
+        /* ── Mobile TOC: floating button + slide-up panel ── */
+        .toc-fab {
+            display: none;
+            position: fixed;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 16px rgba(20,62,111,0.35);
+            z-index: 200;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .toc-fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(20,62,111,0.45); }
+        .toc-fab:active { transform: scale(0.95); }
+
+        .toc-fab svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .toc-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 299;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .toc-overlay.visible { opacity: 1; }
+
+        .toc-panel {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-height: 70vh;
+            background: var(--card);
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+            z-index: 300;
+            overflow-y: auto;
+            padding: 0.75rem 1.25rem 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+
+        .toc-panel.visible { transform: translateY(0); }
+
+        .toc-panel-handle {
+            width: 36px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin: 0.25rem auto 1rem;
+        }
+
+        .toc-panel h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin: 0 0 0.75rem 0;
+        }
+
+        .toc-panel ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-panel li { margin-bottom: 0.15rem; }
+
+        .toc-panel a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            display: block;
+            padding: 0.5rem 0.6rem;
+            border-radius: 8px;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .toc-panel a:hover { background: rgba(34,92,199,0.06); color: var(--primary); }
+        .toc-panel a.active { background: rgba(34,92,199,0.1); color: var(--primary); font-weight: 600; }
+
         /* ── Responsive: tablet ── */
         @media (max-width: 1024px) {
-            .container { flex-direction: column; padding: 1rem; gap: 1.5rem; }
-            aside { width: 100%; height: auto; position: static; margin-bottom: 0; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
-            aside ul { display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; }
-            aside li { margin-bottom: 0; }
-            aside a { font-size: 0.82rem; padding: 0.25rem 0.5rem; border-left: none; border-radius: 6px; }
-            aside a.active { border-left: none; background: rgba(34,92,199,0.1); padding-left: 0.5rem; }
-            aside h3::before { display: none; }
+            .container { flex-direction: column; padding: 1rem; gap: 0; }
+            aside { display: none; }
+            .toc-fab { display: flex; }
+            .toc-panel { display: block; }
+            .toc-overlay { display: block; }
             main { padding: 0 24px 30px 24px; max-width: 100%; }
             h1 { margin: 0 -24px 2rem -24px; padding: 2.5rem 24px 2rem; font-size: 2rem; }
-            .layer-stack { padding-left: 2.5rem; }
             .feedback-loop { padding: 1.25rem 0.75rem; }
             .loop-text { font-size: 0.75rem; }
             .state-card { padding: 1rem 1.15rem; }
@@ -600,9 +705,7 @@
             .flow-arrow { padding: 0.15rem 0; }
             .flow-arrow svg { transform: rotate(90deg); width: 20px; height: 20px; }
             .flow-node { padding: 0.55rem 1rem; font-size: 0.85rem; }
-            .layer-stack { padding-left: 2.2rem; }
             .layer-item { padding: 0.55rem 0.85rem; gap: 0.65rem; }
-            .layer-item::before { left: -1.85rem; width: 10px; height: 10px; }
             .layer-num { width: 22px; height: 22px; font-size: 0.7rem; border-radius: 6px; }
             .layer-label { font-size: 0.9rem; }
             .transition-chain { padding: 0.5rem 0.65rem; flex-wrap: wrap; gap: 0.3rem 0; }
@@ -625,15 +728,15 @@
             h1 .hero-sub { font-size: 0.78rem; }
             h2 { font-size: 1.25rem; }
             .flow-node { padding: 0.5rem 0.85rem; font-size: 0.8rem; }
-            .layer-stack { padding-left: 1.8rem; }
-            .layer-item::before { left: -1.5rem; width: 8px; height: 8px; border-width: 2px; }
+            .layer-item { padding: 0.5rem 0.7rem; }
             .loop-step { margin-bottom: 0.25rem; }
             .feedback-loop { flex-direction: column; align-items: center; gap: 0.25rem; }
             .loop-arrow { transform: rotate(90deg); margin-bottom: 0; }
             .loop-return { margin-top: 0.5rem; }
             .state-card { padding: 0.75rem 0.85rem; }
-            aside ul { gap: 0.15rem 0.35rem; }
-            aside a { font-size: 0.78rem; padding: 0.2rem 0.4rem; }
+            .toc-panel a { font-size: 0.88rem; padding: 0.45rem 0.5rem; }
+            .toc-fab { bottom: 1rem; right: 1rem; width: 44px; height: 44px; }
+            .toc-fab svg { width: 20px; height: 20px; }
         }
 
         /* ── Reduce motion for accessibility ── */
@@ -649,6 +752,17 @@
 
 <div class="scroll-progress"></div>
 
+<!-- Mobile TOC -->
+<button class="toc-fab" id="toc-fab" aria-label="Table of contents" aria-controls="toc-panel" aria-expanded="false">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+</button>
+<div class="toc-overlay" id="toc-overlay"></div>
+<div class="toc-panel" id="toc-panel" role="dialog" aria-modal="true" aria-labelledby="toc-panel-title">
+    <div class="toc-panel-handle"></div>
+    <h3 id="toc-panel-title">Contents</h3>
+    <ul id="toc-panel-links"></ul>
+</div>
+
 <div class="container">
     <aside>
         <h3>Table of Contents</h3>
@@ -658,7 +772,7 @@
             <li><a href="#signal-model">3. Signal Model</a></li>
             <li><a href="#context-weighting">4. Context Weighting</a></li>
             <li><a href="#state-model">5. State Model</a></li>
-            <li><a href="#sub-types">6. Sub-types (Optional Layer)</a></li>
+            <li><a href="#sub-types">6. Optional Refinement Layers</a></li>
             <li><a href="#classification-logic">7. Classification Logic</a></li>
             <li><a href="#confidence-scoring">8. Confidence Scoring</a></li>
             <li><a href="#action-layer">9. Action Layer</a></li>
@@ -673,7 +787,7 @@
     </aside>
 
     <main>
-        <h1>Behaviour Intelligence Framework<span class="hero-sub">Strategic Analytics</span></h1>
+        <h1>Behaviour Intelligence Framework<span class="hero-sub">Gerson Ltd &middot; Strategic Analytics</span></h1>
 
         <h2 id="orientation">1. Orientation</h2>
         
@@ -714,15 +828,63 @@
             <div class="flow-node">Learning</div>
         </div>
 
+        <p>Optional refinement layer:</p>
+        <div class="flow-diagram">
+            <div class="flow-node">Behaviour</div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-node">State</div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-node" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); font-size: 0.82rem;">Motivation<span style="display:block;font-size:0.65rem;font-weight:400;opacity:0.7">inferred, optional</span></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-node">Response</div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-node">Outcome</div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-node">Learning</div>
+        </div>
+
+        <div class="glossary">
+            <h3>Key terms used in this document</h3>
+            <dl>
+                <dt>Signal</dt>
+                <dd>A measurable indicator of user behaviour — for example, how many pages someone viewed, how long they spent reading, or whether they clicked a call-to-action button. The system uses four core signals: breadth, depth, progression, and clustering.</dd>
+
+                <dt>State</dt>
+                <dd>A classification category that describes where a visitor currently sits on the journey from awareness to action. Examples: "Scanner" (browsing widely but shallowly) or "Evaluator" (reading deeply and moving toward a decision).</dd>
+
+                <dt>Confidence</dt>
+                <dd>A score (0–10) that measures how certain the system is about a state classification. Low confidence means the evidence is thin; high confidence means the signals are strong and consistent. Confidence controls what actions the system is allowed to take.</dd>
+
+                <dt>Cluster / Clustering</dt>
+                <dd>A group of related pages tagged with the same topic (e.g. "pricing", "case studies", "product A"). Clustering measures how concentrated a visitor's behaviour is within one topic group versus scattered across many.</dd>
+
+                <dt>Taxonomy</dt>
+                <dd>A structured register that tags every page on the site with a page type (e.g. "service page", "blog post") and topic cluster (e.g. "pricing", "proof"). This tagging is what makes clustering measurable.</dd>
+
+                <dt>GA4</dt>
+                <dd>Google Analytics 4 — the current version of Google's web analytics platform, used here as the default data collection tool.</dd>
+
+                <dt>GTM</dt>
+                <dd>Google Tag Manager — a tool that manages tracking code on a website without requiring direct code changes. Used to send events (like clicks and form submissions) to GA4.</dd>
+
+                <dt>CTA</dt>
+                <dd>Call-to-action — a button or link designed to prompt a specific user action, such as "Get a quote" or "Book a demo".</dd>
+
+                <dt>Motivation</dt>
+                <dd>An optional inference about what a visitor may be seeking (e.g. "risk-sensitive" or "value-driven"), based on their observed behaviour. Motivation is always secondary to state classification and is only assigned when confidence is medium or high.</dd>
+            </dl>
+        </div>
+
         <h2 id="overview">2. System Overview</h2>
-        <p>The system consists of six layers:</p>
+        <p>The system consists of six core layers (plus one optional refinement layer):</p>
         <div class="layer-stack">
-            <div class="layer-item" style="--i:0"><span class="layer-num">1</span><span class="layer-label">Data Collection (GA4)</span></div>
-            <div class="layer-item" style="--i:1"><span class="layer-num">2</span><span class="layer-label">Signal Construction</span></div>
-            <div class="layer-item" style="--i:2"><span class="layer-num">3</span><span class="layer-label">State Classification</span></div>
-            <div class="layer-item" style="--i:3"><span class="layer-num">4</span><span class="layer-label">Confidence Scoring</span></div>
-            <div class="layer-item" style="--i:4"><span class="layer-num">5</span><span class="layer-label">Action Layer</span></div>
-            <div class="layer-item" style="--i:5"><span class="layer-num">6</span><span class="layer-label">Feedback Loop</span></div>
+            <div class="layer-item"><span class="layer-num">1</span><span class="layer-label">Data Collection (GA4)</span></div>
+            <div class="layer-item"><span class="layer-num">2</span><span class="layer-label">Signal Construction</span></div>
+            <div class="layer-item"><span class="layer-num">3</span><span class="layer-label">State Classification</span></div>
+            <div class="layer-item"><span class="layer-num">4</span><span class="layer-label">Confidence Scoring</span></div>
+            <div class="layer-item"><span class="layer-num">5</span><span class="layer-label">Action Layer</span></div>
+            <div class="layer-item"><span class="layer-num">6</span><span class="layer-label">Feedback Loop</span></div>
+            <div class="layer-item" style="border-color: #8b5cf6;"><span class="layer-num" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">7</span><span class="layer-label">Optional Motivation Layer <span style="font-weight:400;color:var(--text-muted);font-size:0.85rem;">(applied only when confidence is medium/high)</span></span></div>
         </div>
 
         <h2 id="signal-model">3. Signal Model</h2>
@@ -757,7 +919,12 @@
             </li>
         </ul>
         <p>Breadth can be calibrated per site using percentiles once enough data exists.</p>
-        <p><strong>Interpretation warning:</strong> High breadth does not always indicate healthy exploration. On a site with poor information architecture, high breadth often signals a <strong>lost user</strong> — someone clicking widely because they cannot find what they need, not because they are surveying options. To guard against this misreading, cross-reference breadth with depth and progression. If breadth is high but depth is very low (≤ 2) and progression is zero, the user is more likely lost than exploring. The Scanner state captures this pattern, but pay attention to Scanner volume: a spike in Scanners may indicate a site navigation problem rather than a traffic quality problem.</p>
+        <blockquote>
+            <p><strong>Interpretation warning:</strong> High breadth does not always mean healthy exploration.</p>
+            <p>On a poorly structured site, high breadth often signals a <strong>lost user</strong> — someone clicking widely because they cannot find what they need, not because they are surveying options.</p>
+            <p><strong>How to check:</strong> Cross-reference breadth with depth and progression. If breadth is high but depth is very low (≤ 2) and progression is zero, the user is more likely lost than exploring.</p>
+            <p><strong>What to watch:</strong> The Scanner state captures this pattern. A spike in Scanner volume may indicate a site navigation problem rather than a traffic quality problem.</p>
+        </blockquote>
 
         <h4>2. Depth (Engagement)</h4>
         <p>How deeply they engage.</p>
@@ -869,7 +1036,10 @@
             <li><code>repeat_cluster_bonus</code> = <code>min(repeat_cluster_visits - 1, 3)</code> (capped at 3; each return visit to the same cluster beyond the first adds 1 point of bonus)</li>
         </ul>
 
-        <p><strong>Minimum signal floor:</strong> Do not apply <code>topic_switch_penalty</code> until the user has viewed <strong>4 or more pages</strong>. Below this threshold, a single topic switch (e.g. 2 pages in Cluster A, then 1 in Cluster B) is normal exploratory behaviour and should not be penalised. For sessions with fewer than 4 pages, set <code>topic_switch_penalty = 0</code> and rely on <code>dominant_topic_share</code> alone.</p>
+        <blockquote>
+            <p><strong>Minimum signal floor:</strong> Do not apply <code>topic_switch_penalty</code> until the user has viewed <strong>4 or more pages</strong>.</p>
+            <p>Below this threshold, a single topic switch (e.g. 2 pages in Cluster A, then 1 in Cluster B) is normal exploratory behaviour and should not be penalised. For short sessions, set <code>topic_switch_penalty = 0</code> and rely on <code>dominant_topic_share</code> alone.</p>
+        </blockquote>
 
         <p>Example 1 — sufficient data: a visitor views 10 pages, 7 in one cluster, switches topics twice, and returns to the primary cluster 3 times:</p>
         <ul>
@@ -886,7 +1056,8 @@
         <hr>
 
         <h3>3.3 Temporal signals (integrated)</h3>
-        <p>Temporal signals are not separate decoration. They should shape classification and confidence. This section defines the signal inputs; Section 10 covers how temporal patterns drive state transitions and trend analysis.</p>
+        <p>Temporal signals track how behaviour changes across visits — how recently someone returned, how often they visit, and how quickly they move toward action. These are not separate decoration; they should directly shape classification and confidence.</p>
+        <p>This section defines the raw inputs. Section 10 (later in this document) covers how these inputs are used to track state transitions over time — for example, detecting that a Scanner is becoming an Evaluator across three sessions.</p>
 
         <h4>Recency</h4>
         <p>Time since last session.</p>
@@ -943,8 +1114,8 @@
         <h4>Option A: Fixed rules (best for early-stage / low data)</h4>
         <p>Use fixed score thresholds based on known business logic. This is easier to explain and debug.</p>
 
-        <h4>Option B: Percentile-based normalization (best once data volume grows)</h4>
-        <p>Normalize raw values against site-specific historical distributions.</p>
+        <h4>Option B: Percentile-based normalisation (best once data volume grows)</h4>
+        <p>Instead of fixed thresholds, compare each visitor's raw values against what is typical for your site. "Percentile-based" means ranking a value against historical data — for example, if a visitor's engagement time is higher than 80% of all sessions, they score in the 80th percentile.</p>
         <p>Examples:</p>
         <ul>
             <li>Breadth score of 8 = top 20% of page variety for this site</li>
@@ -959,7 +1130,8 @@
         </ul>
 
         <h2 id="context-weighting">4. Context Weighting</h2>
-        <p>Context weighting adjusts signal scores based on where, how, and from where a visitor interacts. These weights are multipliers applied during Step 3 of the classification logic (Section 7).</p>
+        <p>Not all pages and actions are equal. A visitor clicking a CTA on a pricing page signals stronger intent than a visitor scrolling a blog post. Context weighting adjusts signal scores based on where, how, and from where a visitor interacts.</p>
+        <p>These weights are multipliers — they increase or decrease the signal value of an action. They are applied during the classification process described in Section 7. You do not need to read Section 7 first; the tables below define the weights themselves.</p>
 
         <h3>Page types</h3>
         <p>Each page type carries a weight that increases or decreases the signal value of actions taken on it.</p>
@@ -1032,7 +1204,7 @@
         </ul>
 
         <h3>State definitions</h3>
-        <p><strong>Note on score gaps:</strong> The score ranges below are intentionally overlapping at boundaries. When a visitor's scores fall in an overlap zone between two states, apply the priority order in Section 7, Step 4. If no state's criteria are fully met, assign the closest match with low confidence and flag for review.</p>
+        <p><strong>Note on score overlaps:</strong> The score ranges below intentionally overlap at boundaries — real user behaviour does not fall neatly into boxes. When a visitor's scores could match two states, Section 7 provides a priority order to resolve the tie (e.g. "Engaged" always takes priority over "Focused Evaluator"). If no state's criteria are fully met, assign the closest match with low confidence and flag for review.</p>
 
         <div class="state-card" data-state="mismatch">
             <h4>1. Mismatch</h4>
@@ -1132,7 +1304,7 @@
                 <li><code>rage_click_count</code> — rapid repeated clicks on the same element (3+ clicks within 2 seconds)</li>
                 <li><code>dead_click_count</code> — clicks on non-interactive elements that produce no response</li>
                 <li><code>form_error_count</code> — validation errors encountered during form completion</li>
-                <li><code>high_layout_shift</code> — significant content movement during page load (CLS > 0.25)</li>
+                <li><code>high_layout_shift</code> — significant content movement during page load (Cumulative Layout Shift > 0.25 — a measure of how much visible page content shifts unexpectedly during loading)</li>
             </ul>
             <p>If friction signals are present alongside Stalled criteria, classify as <strong>Stalled (Friction)</strong> sub-type. This changes the recommended action from "simplify navigation" to "fix the broken interaction" — a UX engineering problem, not a content strategy problem.</p>
         </div>
@@ -1168,7 +1340,8 @@
         </ul>
         <p>This matters because the visitor is not simply “new” or “returning”; they are reactivated.</p>
 
-        <h2 id="sub-types">6. Sub-types (Optional Layer)</h2>
+        <h2 id="sub-types">6. Optional Refinement Layers</h2>
+        <h3>6.1 Content Sub-types (Optional)</h3>
         <p>Each core state can carry a sub-type label that describes the <em>content orientation</em> of the behaviour, not just its intensity. Sub-types are determined by which page types and content roles dominate the session.</p>
 
         <table>
@@ -1206,6 +1379,45 @@
         <p>Sub-types are optional. Implement them only when the action layer needs to differentiate <em>which kind</em> of content to surface — for example, sending a proof-led follow-up to a proof-focused Evaluator vs. a pricing summary to a price-focused Comparator.</p>
         <p>Sub-types do not affect state classification or priority. They inform the <em>content</em> of the response, not the <em>type</em> of response.</p>
 
+        <h3>6.2 Motivation Signals (Optional Layer)</h3>
+        <p>The framework may apply a lightweight motivation signal after state assignment. This is an inference layer, not a replacement for state classification.</p>
+        <p>Use motivation only to refine action precision:</p>
+        <ul>
+            <li>State = what behaviour is doing now</li>
+            <li>Motivation signal = what behaviour is most consistent with</li>
+        </ul>
+
+        <h4>Recommended motivation categories (keep small)</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Motivation signal</th>
+                    <th>Typical behavioural pattern</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Curiosity-driven</strong></td><td>Broad exploration, low commitment, limited progression</td></tr>
+                <tr><td><strong>Value-driven</strong></td><td>Deep engagement with proof/outcome content and evaluation behaviour</td></tr>
+                <tr><td><strong>Risk-sensitive</strong></td><td>Strong intent signals with hesitation before completion</td></tr>
+                <tr><td><strong>Confusion-driven</strong></td><td>Repeated loops, switching, and low forward movement</td></tr>
+                <tr><td><strong>Overload-sensitive</strong></td><td>Deep dwell and repeated review without clear progression</td></tr>
+                <tr><td><strong>Urgency-driven</strong></td><td>Fast movement to high-intent actions with minimal exploration</td></tr>
+            </tbody>
+        </table>
+
+        <h4>Guardrails (must follow)</h4>
+        <ol>
+            <li><strong>Behaviour first:</strong> assign state before motivation.</li>
+            <li><strong>Confidence gate:</strong> only assign motivation when state confidence is medium or high (4+).</li>
+            <li><strong>Minimal set:</strong> do not expand motivation categories unless a new category changes action.</li>
+            <li><strong>Action-linked only:</strong> if a motivation label does not alter response, remove it.</li>
+            <li><strong>No psychological overreach:</strong> describe behavioural consistency, not internal truth.</li>
+        </ol>
+
+        <h4>What should not be added</h4>
+        <p>Do not add abstract, non-operational labels (for example, "status-seeking" or "identity-driven") unless there is a reliable behavioural proxy and a distinct action pathway.</p>
+        <p>Do not use motivation as a primary classifier, and do not assign motivation when data is sparse or confidence is low.</p>
+
         <h2 id="classification-logic">7. Classification Logic</h2>
         
         <h3>Important note on thresholds</h3>
@@ -1236,11 +1448,11 @@
             <li>return visits</li>
         </ul>
 
-        <h4>Step 2: convert to normalized scores</h4>
+        <h4>Step 2: convert to normalised scores</h4>
         <p>Use either:</p>
         <ul>
             <li>fixed score mapping, or</li>
-            <li>percentile-based normalization against historical site behaviour</li>
+            <li>percentile-based normalisation against historical site behaviour</li>
         </ul>
 
         <h4>Step 3: apply context weighting</h4>
@@ -1270,6 +1482,14 @@
 
         <h4>Step 5: assign confidence score</h4>
         <p>Every state assignment must be paired with a confidence score.</p>
+
+        <h4>Step 6 (optional): assign motivation signal</h4>
+        <p>Only after state and confidence are assigned:</p>
+        <ul>
+            <li>if confidence is low (0–3): do not assign motivation</li>
+            <li>if confidence is medium/high (4–10): assign one primary motivation signal</li>
+        </ul>
+        <p>Motivation is secondary metadata that refines response content. It must not override state priority or confidence logic.</p>
 
         <h3>Example rules (raw metric thresholds)</h3>
         <p>The state definitions in Section 5 use scored thresholds (e.g. "Breadth ≥ 6"). The examples below show how raw metrics translate into those scores under fixed-rule scoring (Section 3.4, Option A). These are starting defaults — calibrate to your site.</p>
@@ -1395,20 +1615,28 @@
                 <tr>
                     <td>Medium (4–6)</td>
                     <td>Lightweight nudges and analyst review</td>
-                    <td>Adjust content recommendations; flag for manual review; add to nurture segments</td>
+                    <td>Adjust content recommendations; flag for manual review; add to nurture segments; optional motivation tag may be applied</td>
                 </tr>
                 <tr>
                     <td>High (7–10)</td>
                     <td>Direct automated action and personalisation</td>
-                    <td>Trigger CRM workflows; personalise page content; alert sales team</td>
+                    <td>Trigger CRM workflows; personalise page content; alert sales team; motivation tag can drive targeted response variant</td>
                 </tr>
             </tbody>
         </table>
 
+        <p><strong>Motivation assignment rule:</strong></p>
+        <ul>
+            <li>Low confidence: no motivation tag</li>
+            <li>Medium confidence: one motivation tag allowed with analyst review</li>
+            <li>High confidence: one motivation tag can drive automated response variants</li>
+        </ul>
+
         <h3>Examples</h3>
         <ul>
-            <li>2-page visit with one CTA click, 15 seconds on site → signal types: page view + CTA click = 2 types (score 0), strength: mix of passive and active (score 1), clarity: ambiguous between Scanner and Explorer (score 0), session depth: < 30s, 2 pages (score 0), temporal: single session (score 0) = <strong>1 (low confidence)</strong></li>
-            <li>3 sessions over 5 days, repeated cluster visits, form starts, deep scrolling, and increasing progression → signal types: page view + scroll + CTA click + form start + cluster return = 5 types (score 2), strength: form starts present (score 2), clarity: clearly Returning Evaluator (score 2), session depth: sustained engagement across sessions (score 2), temporal: 3 sessions with reinforcing pattern (score 2) = <strong>10 (high confidence)</strong></li>
+            <li><strong>Low confidence (score 1):</strong> A 2-page visit with one CTA click, 15 seconds on site. Signal types: page view + CTA click = 2 types (score 0). Strength: mix of passive and active (score 1). Clarity: ambiguous between Scanner and Explorer (score 0). Session depth: &lt; 30s, 2 pages (score 0). Temporal: single session (score 0). <strong>Total = 1.</strong> Not enough evidence to act on.</li>
+            <li><strong>Medium confidence (score 5):</strong> A single session lasting 3 minutes across 5 pages, with deep scrolling on two service pages, one CTA click, and behaviour concentrated in one topic cluster. Signal types: page view + scroll + CTA click = 3 types (score 1). Strength: CTA click present (score 1). Clarity: likely Explorer, but Evaluator is plausible (score 1). Session depth: 3 minutes, 5 pages (score 2). Temporal: single session (score 0). <strong>Total = 5.</strong> Enough to adjust content recommendations, but not enough to trigger automated outreach.</li>
+            <li><strong>High confidence (score 10):</strong> 3 sessions over 5 days, repeated cluster visits, form starts, deep scrolling, and increasing progression. Signal types: page view + scroll + CTA click + form start + cluster return = 5 types (score 2). Strength: form starts present (score 2). Clarity: clearly Returning Evaluator (score 2). Session depth: sustained engagement across sessions (score 2). Temporal: 3 sessions with reinforcing pattern (score 2). <strong>Total = 10.</strong> High enough to trigger CRM workflows and personalisation.</li>
         </ul>
 
         <h2 id="action-layer">9. Action Layer</h2>
@@ -1443,6 +1671,18 @@
             <li>identify which pages create hesitation or overload</li>
             <li>prioritise fixes based on which state blocks conversion most often</li>
         </ul>
+
+        <h3>State + motivation refinement examples</h3>
+        <p>Use these only when the motivation confidence gate is met:</p>
+        <ul>
+            <li>Hesitant + <strong>Risk-sensitive</strong> → add reassurance (guarantees, proof, process clarity)</li>
+            <li>Hesitant + <strong>Confusion-driven</strong> → simplify UX and next-step guidance</li>
+            <li>Hesitant + <strong>Overload-sensitive</strong> → reduce options and shorten decision path</li>
+            <li>Scanner + <strong>Curiosity-driven</strong> → improve guided entry and value framing</li>
+            <li>Evaluator + <strong>Value-driven</strong> → surface outcomes, case studies, and implementation detail</li>
+            <li>Focused Evaluator + <strong>Urgency-driven</strong> → remove distractions and shorten conversion path</li>
+        </ul>
+        <p>If motivation does not change the action, keep state-level action only.</p>
 
         <h3>Example mappings with metrics</h3>
         <ul>
@@ -1599,7 +1839,7 @@
             <li><code>traffic_source_group</code></li>
         </ul>
 
-        <p><strong>GA4 property limits:</strong> Standard GA4 properties allow a maximum of 50 event-scoped custom dimensions and 25 user-scoped custom dimensions. This framework uses 6 required event parameters plus friction events. Plan your custom dimension budget carefully — if the site already uses 40+ custom dimensions for other purposes, you will need to consolidate or use BigQuery export (where these limits do not apply) to store the full parameter set. Audit existing custom dimensions before implementation to avoid hitting the ceiling mid-rollout.</p>
+        <p><strong>GA4 property limits:</strong> Standard GA4 properties allow up to 50 event-scoped custom dimensions and 25 user-scoped custom dimensions. This framework uses 6 required event parameters plus friction events. Plan your custom dimension budget early. If the site already uses 40+ custom dimensions for other needs, consolidate where possible or use BigQuery export (where these limits do not apply). Audit existing custom dimensions before rollout so you do not hit the limit halfway through implementation.</p>
 
         <h3>Practical clustering setup</h3>
         <p>For clustering to work, every important page must belong to:</p>
@@ -1692,7 +1932,7 @@
             </tbody>
         </table>
 
-        <p><strong>How the taxonomy feeds the clustering signal:</strong> When a page loads, the GTM data layer reads this register and pushes <code>page_topic</code> and <code>page_type</code> into the GA4 <code>page_view</code> event. In BigQuery, clustering is calculated by looking at the sequence of <code>page_topic</code> values across the session. Use regex URL patterns (e.g. <code>/blog/.*</code>) to capture folder-based content automatically — only manually map high-value standalone URLs like <code>/pricing</code> or <code>/book-a-demo</code>. For large sites (1,000+ pages), inject topic cluster and page type as hidden metadata in the HTML header via the CMS, which GTM can then read, rather than maintaining a manual sheet.</p>
+        <p><strong>How the taxonomy feeds the clustering signal:</strong> When a page loads, the GTM data layer reads this register and sends <code>page_topic</code> and <code>page_type</code> with the GA4 <code>page_view</code> event. In BigQuery, clustering is calculated from the sequence of <code>page_topic</code> values in each session. Use regex URL patterns (e.g. <code>/blog/.*</code>) to capture folder-based content automatically. Manually map only high-value standalone URLs such as <code>/pricing</code> or <code>/book-a-demo</code>. For large sites (1,000+ pages), add topic cluster and page type as hidden metadata in the HTML header via the CMS, then let GTM read those values.</p>
 
         <p><strong>Default for untagged pages:</strong> Any URL not in the register should default to <code>page_topic: General</code> and <code>intent_weight: 0.5</code>. This prevents null values from breaking score calculations while making untagged pages visible in audits.</p>
 
@@ -1717,7 +1957,7 @@
 
         <h4>Intermediate setup</h4>
         <ul>
-            <li>GA4 + BigQuery export</li>
+            <li>GA4 + BigQuery export (BigQuery is Google's cloud data warehouse — it stores raw GA4 event data for flexible querying)</li>
             <li>SQL-based score calculation</li>
             <li>dashboard state reporting</li>
         </ul>
@@ -1831,19 +2071,23 @@
         <ul>
             <li><strong>Probabilistic, not deterministic.</strong> All classifications are probabilistic estimates. No behavioural signal guarantees intent. Treat states as the most likely interpretation, not a fact about the visitor.</li>
             <li><strong>Multi-signal required.</strong> A single data point (one page view, one click) is insufficient for reliable classification. Require at least 3 signals before assigning any state above low confidence.</li>
-            <li><strong>Small data = low confidence.</strong> Sites with fewer than 500 sessions per month will have limited calibration data. Use fixed-rule scoring (Section 3.4, Option A) and avoid percentile-based normalization until volume grows.</li>
+            <li><strong>Small data = low confidence.</strong> Sites with fewer than 500 sessions per month will have limited calibration data. Use fixed-rule scoring (Section 3.4, Option A) and avoid percentile-based normalisation until volume grows.</li>
+            <li><strong>Motivation is inferred, not observed.</strong> Motivation tags are optional secondary signals. They must never replace behavioural states as the primary classification layer.</li>
+            <li><strong>No low-confidence motivation.</strong> Do not assign motivation tags when confidence is low (0–3) or when signal evidence is sparse.</li>
+            <li><strong>Avoid psychological overreach.</strong> Do not claim internal mental truth; only describe behavioural patterns consistent with a motivation hypothesis.</li>
         </ul>
 
         <h3>Data quality constraints</h3>
         <ul>
             <li><strong>Taxonomy completeness.</strong> The clustering signal depends entirely on every important page being tagged with a page type and topic cluster. Untagged pages create blind spots that distort clustering scores. Audit taxonomy coverage before trusting clustering outputs.</li>
             <li><strong>Event reliability.</strong> Custom events (CTA clicks, form starts, section views) require correct GTM implementation. Missing or double-firing events will corrupt progression and depth scores. Validate event accuracy in GA4 DebugView before using scores operationally.</li>
-            <li><strong>Cross-device and cross-session identity.</strong> GA4's user identity relies on cookies and optional User-ID. Visitors who switch devices, use incognito mode, or clear cookies will appear as new users, fragmenting their behavioural profile. This primarily affects temporal signals (frequency, velocity, returning evaluator detection). Accept this as a known limitation and do not over-interpret single-session classifications for sites with high cross-device traffic. <strong>B2B-specific risk:</strong> In B2B contexts — where this system is most powerful — decision-makers commonly research on a work laptop, revisit on a phone during a commute, and return via a colleague's shared link. Without a logged-in User-ID, the "Returning Evaluator" pattern collapses into a series of disconnected "new Scanners," and the temporal layer loses its predictive value. For B2B sites, implementing User-ID (e.g. via gated content, account login, or CRM integration) is not optional — it is a prerequisite for reliable multi-session state tracking.</li>
+            <li><strong>Cross-device and cross-session identity.</strong> GA4 identity relies on cookies and optional User-ID (which links sessions when a user logs in). If visitors switch devices, browse in private mode, or clear cookies, they appear as new users. This splits their behavioural history. It mainly affects temporal signals (frequency, velocity, and returning evaluator detection). Treat this as a known limitation and avoid over-interpreting single-session classifications on high cross-device sites.</li>
+            <li><strong>B2B-specific risk.</strong> In B2B journeys, people often research on one device, revisit on another, and return through a shared link. Without a logged-in User-ID, the "Returning Evaluator" pattern can fragment into separate "new Scanner" sessions. That weakens the temporal layer. For B2B sites, User-ID (via gated content, account login, or CRM integration) is a practical requirement for reliable multi-session tracking.</li>
         </ul>
 
         <h3>Privacy and consent</h3>
         <ul>
-            <li>Session-level and cross-session tracking requires user consent under GDPR, ePrivacy, and similar regulations. Ensure consent management is in place before collecting the events described in this framework.</li>
+            <li>Session-level and cross-session tracking requires user consent under GDPR (the EU's General Data Protection Regulation), ePrivacy, and similar data protection regulations. Ensure consent management is in place before collecting the events described in this framework.</li>
             <li>Do not store personally identifiable information (PII) in GA4 custom parameters. State classifications should be based on behavioural patterns, not individual identity.</li>
             <li>Where consent is not granted, the system should degrade gracefully to aggregate-only reporting with no individual state assignment.</li>
         </ul>
@@ -1858,6 +2102,7 @@
         <p>This system transforms website analytics from passive observation into an active decision framework. It does this by:</p>
         <ul>
             <li><strong>Classifying visitors into behavioural states</strong> using four core signals (breadth, depth, progression, clustering) and temporal context — replacing vague metrics with actionable categories.</li>
+            <li><strong>Optionally refining response precision with motivation signals</strong> (for medium/high-confidence classifications only), so actions can be tailored without overclaiming psychological certainty.</li>
             <li><strong>Quantifying certainty</strong> through confidence scoring, so that the strength of response matches the strength of evidence.</li>
             <li><strong>Connecting every state to a specific, testable action</strong>, ensuring that classification always leads to a concrete business response with a measurable outcome.</li>
             <li><strong>Learning continuously</strong> through a feedback loop that refines thresholds, weights, and state definitions as data accumulates.</li>
@@ -1896,7 +2141,7 @@ raw_events AS (
     AND FORMAT_DATE('%Y%m%d', CURRENT_DATE())
 ),
 
--- 2. Map events to taxonomy (use REGEXP_CONTAINS for pattern matching)
+-- 2. Map events to taxonomy (REGEXP_CONTAINS matches URLs against patterns, e.g. /blog/.* matches any blog page)
 -- NOTE: For large taxonomy tables, pre-compute the join or use exact URL matching
 -- with a materialised lookup to avoid expensive regex scans on every query.
 mapped_events AS (
@@ -2045,11 +2290,11 @@ JOIN progression_metrics p ON b.user_pseudo_id = p.user_pseudo_id AND b.session_
 
         <h3>Implementation notes</h3>
         <ol>
-            <li><strong>Session identity:</strong> GA4's <code>ga_session_id</code> is a timestamp and is not unique across users. Always partition by both <code>user_pseudo_id</code> AND <code>session_id</code> to avoid mixing sessions from different visitors.</li>
+            <li><strong>Session identity:</strong> GA4's <code>ga_session_id</code> is a timestamp and is not unique across users. <code>user_pseudo_id</code> is GA4's anonymous identifier for a visitor (based on their browser cookie). Always partition by both <code>user_pseudo_id</code> AND <code>session_id</code> to avoid mixing sessions from different visitors.</li>
             <li><strong>Taxonomy join performance:</strong> <code>REGEXP_CONTAINS</code> joins are computationally expensive. For production use, materialise the taxonomy lookup as a pre-computed URL-to-metadata table (exact match on URL path) and reserve regex matching for a nightly batch update. This can reduce query costs by 10–100x on large event tables.</li>
             <li><strong>Null handling:</strong> The <code>COALESCE</code> wrappers on taxonomy fields ensure untagged pages default to <code>topic_cluster: 'General'</code> and <code>intent_weight: 0.5</code> rather than producing null scores. Monitor the volume of 'General' classifications — high volume indicates taxonomy debt.</li>
             <li><strong>Calibration:</strong> The breadth and depth score thresholds above (e.g. "&lt; 30 seconds = 3") are fixed-rule defaults (Section 3.4, Option A). Once you have 3+ months of data, replace them with percentile-based scoring by computing <code>PERCENT_RANK()</code> over the raw metrics and mapping the percentile to a 0–10 scale.</li>
-            <li><strong>Next step — state assignment:</strong> This query produces the four signal scores per session. To assign states, add a final <code>CASE WHEN</code> block applying the priority order from Section 7, Step 4, or export the scores to a downstream transformation layer (e.g. dbt) for state classification and confidence scoring.</li>
+            <li><strong>Next step — state assignment:</strong> This query produces the four signal scores per session. To assign states, add a final <code>CASE WHEN</code> block applying the priority order from Section 7, Step 4, or export the scores to a downstream transformation layer (e.g. dbt, a SQL-based data transformation tool) for state classification and confidence scoring.</li>
         </ol>
 
     </main>
@@ -2103,6 +2348,75 @@ JOIN progression_metrics p ON b.user_pseudo_id = p.user_pseudo_id AND b.session_
     }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
 
     revealEls.forEach(el => revealObserver.observe(el));
+
+    /* ── Mobile TOC panel ── */
+    const fab = document.getElementById('toc-fab');
+    const overlay = document.getElementById('toc-overlay');
+    const panel = document.getElementById('toc-panel');
+    const panelLinks = document.getElementById('toc-panel-links');
+
+    // Clone sidebar links into mobile panel
+    const sidebarLinks = document.querySelectorAll('aside ul li');
+    sidebarLinks.forEach(li => {
+        const clone = li.cloneNode(true);
+        panelLinks.appendChild(clone);
+    });
+
+    function openToc() {
+        overlay.style.display = 'block';
+        panel.style.display = 'block';
+        fab.setAttribute('aria-expanded', 'true');
+        requestAnimationFrame(() => {
+            overlay.classList.add('visible');
+            panel.classList.add('visible');
+        });
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeToc() {
+        overlay.classList.remove('visible');
+        panel.classList.remove('visible');
+        fab.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            panel.style.display = 'none';
+        }, 300);
+    }
+
+    fab.addEventListener('click', openToc);
+    overlay.addEventListener('click', closeToc);
+
+    // Close panel and scroll when a link is tapped
+    panelLinks.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') {
+            closeToc();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panel.classList.contains('visible')) {
+            closeToc();
+        }
+    });
+
+    // Sync active state to mobile panel links
+    const mobileTocLinks = panelLinks.querySelectorAll('a');
+    const originalOnScroll = onScroll;
+    window.removeEventListener('scroll', originalOnScroll);
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const top = section.getBoundingClientRect().top;
+            if (top <= 120) current = section.getAttribute('id');
+        });
+        tocLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+        mobileTocLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+    });
 </script>
 
 </body>
