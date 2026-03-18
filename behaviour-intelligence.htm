@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Behaviour Intelligence Framework</title>
+    <meta name="description" content="A behavioural intelligence framework for websites and digital products. Classifies visitors into actionable states using signals, confidence scoring, and feedback loops.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
@@ -761,8 +764,169 @@
             .reveal { opacity: 1; transform: none; transition: none; }
             .flow-node, .layer-item, .state-card, .loop-num { transition: none; }
             .scroll-progress { transition: none; }
+            .back-to-top { transition: none; }
             html { scroll-behavior: auto; }
         }
+
+        /* ── Dark mode ── */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-dark: #7db4ff;
+                --primary: #5a9cf5;
+                --primary-light: #4d8dff;
+                --accent: #49b0ff;
+                --bg-color: #0f1219;
+                --text-main: #e2e8f0;
+                --text-muted: #94a3b8;
+                --border: #2d3748;
+                --card: #1a202c;
+                --code-bg: #0c1728;
+                --code-text: #f8fafc;
+            }
+            h1 { background: linear-gradient(135deg, #0c1728, #1a2856 45%, #2d4bd9); }
+            th { background: linear-gradient(135deg, #1e293b, #1a2856); }
+            :not(pre) > code { background-color: #1e293b; border-color: rgba(77,141,255,0.15); }
+            blockquote { background: linear-gradient(135deg, #1e293b, rgba(77,141,255,0.08)); }
+            .glossary { background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(45,75,217,0.1)); }
+            .state-card { background: var(--card); }
+            .transition-chain { background: rgba(30,41,59,0.6); }
+            .feedback-loop { background: linear-gradient(135deg, rgba(30,41,59,0.5), rgba(45,75,217,0.1)); }
+            .classifier-tool { background: linear-gradient(135deg, rgba(30,41,59,0.5), rgba(45,75,217,0.1)); }
+            tbody tr:nth-child(even) { background-color: rgba(30,41,59,0.4); }
+            tbody tr:hover { background-color: rgba(77,141,255,0.1); }
+            main { box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2); border-color: var(--border); }
+            .toc-panel { background: var(--card); }
+            .toc-overlay { background: rgba(0,0,0,0.6); }
+            hr { background: linear-gradient(90deg, transparent, var(--border), var(--primary-light), var(--border), transparent); }
+            .classifier-result { background: var(--card); }
+            .classifier-inputs input[type="range"] { background: var(--border); }
+        }
+
+        /* ── Print ── */
+        @media print {
+            aside, .toc-fab, .toc-overlay, .toc-panel, .scroll-progress, .back-to-top, .classifier-tool { display: none !important; }
+            body { background: #fff; color: #000; display: block; }
+            main { box-shadow: none; border: none; max-width: 100%; padding: 0 20px; border-radius: 0; }
+            .container { max-width: 100%; padding: 0; display: block; }
+            h1 { background: #143e6f !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0 -20px 2rem -20px; padding: 2rem 20px; }
+            h2 { page-break-after: avoid; margin-top: 2rem; }
+            .state-card, table, pre, blockquote { page-break-inside: avoid; }
+            h2:not(:first-of-type) { break-before: page; }
+            .reveal { opacity: 1 !important; transform: none !important; }
+            a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+            a[href^="#"]::after { content: ""; }
+            .heading-anchor { display: none !important; }
+            .doc-footer { border-top: 1px solid #ccc; }
+        }
+
+        /* ── SQL syntax highlighting ── */
+        pre .sql-keyword { color: #7dd3fc; font-weight: 600; }
+        pre .sql-function { color: #c084fc; }
+        pre .sql-comment { color: #64748b; font-style: italic; }
+        pre .sql-string { color: #86efac; }
+        pre .sql-number { color: #fbbf24; }
+
+        /* ── Back to top ── */
+        .back-to-top {
+            position: fixed;
+            bottom: 1.25rem;
+            left: 1.25rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 16px rgba(20,62,111,0.3);
+            z-index: 200;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
+            pointer-events: none;
+        }
+        .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .back-to-top:hover { box-shadow: 0 6px 20px rgba(20,62,111,0.45); }
+        .back-to-top svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ── Heading anchor links ── */
+        h2 .heading-anchor {
+            opacity: 0;
+            color: var(--primary-light);
+            text-decoration: none;
+            margin-left: 0.4rem;
+            font-size: 0.7em;
+            transition: opacity 0.2s ease;
+            vertical-align: middle;
+        }
+        h2:hover .heading-anchor { opacity: 0.6; }
+        h2 .heading-anchor:hover { opacity: 1; color: var(--primary); }
+
+        /* ── Mobile header scroll shadow ── */
+        @media (max-width: 768px) {
+            h1 { box-shadow: none; transition: box-shadow 0.3s ease; }
+            h1.scrolled { box-shadow: 0 6px 20px rgba(10, 22, 50, 0.25); }
+        }
+
+        /* ── Interactive classifier ── */
+        .classifier-tool {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(12,23,40,0.03), rgba(45,75,217,0.04));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+        .classifier-inputs { display: flex; flex-direction: column; gap: 1rem; }
+        .classifier-inputs label {
+            display: flex; align-items: center; gap: 0.75rem;
+            font-size: 0.92rem; font-weight: 600; color: var(--text-main);
+        }
+        .classifier-inputs label span {
+            min-width: 1.5rem; text-align: right; color: var(--primary);
+            font-variant-numeric: tabular-nums;
+        }
+        .classifier-inputs input[type="range"] {
+            flex: 1; height: 6px; -webkit-appearance: none; appearance: none;
+            background: var(--border); border-radius: 3px; outline: none;
+        }
+        .classifier-inputs input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            cursor: pointer; box-shadow: 0 2px 6px rgba(20,62,111,0.3);
+        }
+        .classifier-inputs input[type="range"]::-moz-range-thumb {
+            width: 18px; height: 18px; border-radius: 50%; border: none;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            cursor: pointer; box-shadow: 0 2px 6px rgba(20,62,111,0.3);
+        }
+        .classifier-result {
+            display: flex; flex-direction: column; justify-content: center; gap: 0.75rem;
+            padding: 1.25rem; background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; text-align: center;
+        }
+        .result-state { font-size: 1.5rem; font-weight: 700; color: var(--primary); line-height: 1.2; }
+        .result-confidence { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
+        .result-action { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        @media (max-width: 768px) {
+            .classifier-tool { grid-template-columns: 1fr; }
+        }
+
+        /* ── Footer ── */
+        .doc-footer {
+            margin-top: 3rem;
+            padding: 1.5rem 0 0.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .doc-footer p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+        .doc-footer a { color: var(--primary); text-decoration: none; }
+        .doc-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -771,7 +935,7 @@
 
 <!-- Mobile TOC -->
 <button class="toc-fab" id="toc-fab" aria-label="Table of contents" aria-controls="toc-panel" aria-expanded="false">
-    <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
 </button>
 <div class="toc-overlay" id="toc-overlay"></div>
 <div class="toc-panel" id="toc-panel" role="dialog" aria-modal="true" aria-labelledby="toc-panel-title">
@@ -800,11 +964,12 @@
             <li><a href="#constraints">14. Constraints and Limitations</a></li>
             <li><a href="#summary">15. Final Summary</a></li>
             <li><a href="#appendix">Appendix A: BigQuery Reference</a></li>
+            <li><a href="#appendix-b">Appendix B: Interactive Classifier</a></li>
         </ul>
     </aside>
 
     <main>
-        <h1>Behaviour Intelligence Framework<span class="hero-sub">Strategic Analytics</span></h1>
+        <h1>Behaviour Intelligence Framework<span class="hero-sub">Strategic Analytics &mdash; v1.0, March 2026</span></h1>
 
         <h2 id="orientation">1. Orientation</h2>
         
@@ -835,28 +1000,28 @@
         <h3>Core principle</h3>
         <div class="flow-diagram">
             <div class="flow-node">Behaviour</div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node">State</div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node">Response</div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node">Outcome</div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node">Learning</div>
         </div>
 
         <p>Optional refinement layer:</p>
         <div class="flow-diagram">
             <div class="flow-node">Behaviour</div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node">State</div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); font-size: 0.82rem;">Motivation<span style="display:block;font-size:0.65rem;font-weight:400;opacity:0.7">inferred, optional</span></div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node">Response</div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node">Outcome</div>
-            <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
+            <div class="flow-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></div>
             <div class="flow-node">Learning</div>
         </div>
 
@@ -1813,6 +1978,39 @@
             <li>many Returning Evaluators failing to convert suggests unresolved trust or pricing friction</li>
         </ul>
 
+        <h3>Lifecycle phase mapping (optional overlay)</h3>
+        <p>The states and temporal signals already described can be grouped into three broad lifecycle phases. This is not a separate classification — it is a lens over existing state data that clarifies which system should own the response (product, CRM, or sales) and what kind of action is appropriate.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Lifecycle phase</th>
+                    <th>Typical states</th>
+                    <th>What it means</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Acquisition</strong></td>
+                    <td>Mismatch, Scanner, Explorer</td>
+                    <td>First contact. The visitor is orienting. The question is whether the proposition is relevant and whether the site helps them find what they need.</td>
+                </tr>
+                <tr>
+                    <td><strong>Evaluation</strong></td>
+                    <td>Comparator, Evaluator, Focused Evaluator, Hesitant, Stalled</td>
+                    <td>Active consideration. The visitor has intent but has not yet acted. The question is whether the experience removes enough friction and builds enough confidence to convert.</td>
+                </tr>
+                <tr>
+                    <td><strong>Retention</strong></td>
+                    <td>Engaged, Returning Evaluator, Re-engaged Prospect</td>
+                    <td>Post-conversion or repeat engagement. The question shifts from "will they act?" to "will they stay, deepen, or return?"</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Phase is determined by the visitor's current state, not by calendar time. A visitor may reach Evaluation in their first session or remain in Acquisition across several visits. The phase changes when the state changes.</p>
+        <p>This mapping is useful when the action layer needs to route responses to different teams or systems — for example, Acquisition-phase issues are typically product or content problems, Evaluation-phase issues are conversion path problems, and Retention-phase issues are CRM or onboarding problems.</p>
+
         <h3>Recommended temporal thresholds</h3>
         <ul>
             <li>Returning Evaluator: 2+ sessions in 7 days, or 3+ in 30 days, with increasing depth or progression</li>
@@ -2314,8 +2512,43 @@ JOIN progression_metrics p ON b.user_pseudo_id = p.user_pseudo_id AND b.session_
             <li><strong>Next step — state assignment:</strong> This query produces the four signal scores per session. To assign states, add a final <code>CASE WHEN</code> block applying the priority order from Section 7, Step 4, or export the scores to a downstream transformation layer (e.g. dbt, a SQL-based data transformation tool) for state classification and confidence scoring.</li>
         </ol>
 
+        <hr>
+
+        <h2 id="appendix-b">Appendix B: Interactive State Classifier</h2>
+        <p>Use this tool to test how the four signal scores map to states. Adjust the sliders to see the classification update in real time. Temporal states (Returning Evaluator, Re-engaged Prospect) require multi-session data and cannot be tested with single-session scores alone.</p>
+        <div class="classifier-tool">
+            <div class="classifier-inputs">
+                <label>Breadth <span id="breadth-val">5</span>/10
+                    <input type="range" id="breadth-slider" min="0" max="10" value="5">
+                </label>
+                <label>Depth <span id="depth-val">5</span>/10
+                    <input type="range" id="depth-slider" min="0" max="10" value="5">
+                </label>
+                <label>Progression <span id="progression-val">3</span>/10
+                    <input type="range" id="progression-slider" min="0" max="10" value="3">
+                </label>
+                <label>Clustering <span id="clustering-val">5</span>/10
+                    <input type="range" id="clustering-slider" min="0" max="10" value="5">
+                </label>
+            </div>
+            <div class="classifier-result">
+                <div class="result-state" id="result-state">Explorer</div>
+                <div class="result-confidence" id="result-confidence">Confidence: Medium</div>
+                <div class="result-action" id="result-action">Strengthen pathways from broad discovery content into relevant offers.</div>
+            </div>
+        </div>
+
+        <footer class="doc-footer">
+            <p>Created by Steven Gerson from <strong>Gerson Ltd</strong>, with support from AI.</p>
+            <p>Inspired by <a href="https://animatedimagination.io" target="_blank" rel="noopener">animatedimagination.io</a></p>
+        </footer>
+
     </main>
 </div>
+
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-7 7 7-7 7 7"/></svg>
+</button>
 
 <script>
     /* ── TOC active tracking ── */
@@ -2375,7 +2608,7 @@ JOIN progression_metrics p ON b.user_pseudo_id = p.user_pseudo_id AND b.session_
     window.addEventListener('resize', updateProgressBarPosition);
 
     /* ── Scroll reveal animations ── */
-    const revealEls = document.querySelectorAll('h2, h3, .state-card, table, pre, blockquote, .flow-diagram, .layer-stack, .feedback-loop, .transition-chain');
+    const revealEls = document.querySelectorAll('h2, h3, .state-card, table, pre, blockquote, .flow-diagram, .layer-stack, .feedback-loop, .transition-chain, .classifier-tool');
     revealEls.forEach(el => el.classList.add('reveal'));
 
     const revealObserver = new IntersectionObserver((entries) => {
@@ -2409,6 +2642,8 @@ JOIN progression_metrics p ON b.user_pseudo_id = p.user_pseudo_id AND b.session_
         requestAnimationFrame(() => {
             overlay.classList.add('visible');
             panel.classList.add('visible');
+            const firstLink = panelLinks.querySelector('a');
+            if (firstLink) firstLink.focus();
         });
         document.body.style.overflow = 'hidden';
     }
@@ -2418,6 +2653,7 @@ JOIN progression_metrics p ON b.user_pseudo_id = p.user_pseudo_id AND b.session_
         panel.classList.remove('visible');
         fab.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        fab.focus();
         setTimeout(() => {
             overlay.style.display = 'none';
             panel.style.display = 'none';
@@ -2438,17 +2674,23 @@ JOIN progression_metrics p ON b.user_pseudo_id = p.user_pseudo_id AND b.session_
         if (e.key === 'Escape' && panel.classList.contains('visible')) {
             closeToc();
         }
+        // Focus trap within panel
+        if (e.key === 'Tab' && panel.classList.contains('visible')) {
+            const focusable = panel.querySelectorAll('a[href]');
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
     });
 
     // Sync active state to mobile panel links
     const mobileTocLinks = panelLinks.querySelectorAll('a');
-    const originalOnScroll = onScroll;
-    window.removeEventListener('scroll', originalOnScroll);
-    window.addEventListener('scroll', () => {
+    window.removeEventListener('scroll', onScroll);
+    function onScrollUnified() {
         let current = '';
         sections.forEach(section => {
-            const top = section.getBoundingClientRect().top;
-            if (top <= 120) current = section.getAttribute('id');
+            if (section.getBoundingClientRect().top <= 120) current = section.getAttribute('id');
         });
         tocLinks.forEach(link => {
             link.classList.toggle('active', link.getAttribute('href') === '#' + current);
@@ -2456,7 +2698,155 @@ JOIN progression_metrics p ON b.user_pseudo_id = p.user_pseudo_id AND b.session_
         mobileTocLinks.forEach(link => {
             link.classList.toggle('active', link.getAttribute('href') === '#' + current);
         });
+    }
+    window.addEventListener('scroll', onScrollUnified, { passive: true });
+    onScrollUnified();
+</script>
+
+<script>
+    /* ── Back to top ── */
+    const backToTop = document.getElementById('back-to-top');
+    backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    window.addEventListener('scroll', () => {
+        backToTop.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+
+    /* ── Mobile header scroll shadow ── */
+    const heroH1 = document.querySelector('main h1');
+    window.addEventListener('scroll', () => {
+        if (window.matchMedia('(max-width: 768px)').matches && heroH1) {
+            heroH1.classList.toggle('scrolled', window.scrollY > 10);
+        }
+    }, { passive: true });
+
+    /* ── Heading anchor links ── */
+    document.querySelectorAll('h2[id]').forEach(section => {
+        const anchor = document.createElement('a');
+        anchor.className = 'heading-anchor';
+        anchor.href = '#' + section.id;
+        anchor.textContent = '#';
+        anchor.setAttribute('aria-label', 'Link to this section');
+        section.appendChild(anchor);
     });
+
+    /* ── SQL syntax highlighting ── */
+    (function() {
+        const sqlKeywords = new Set([
+            'WITH','AS','SELECT','FROM','WHERE','AND','OR','JOIN','LEFT','ON',
+            'GROUP','BY','ORDER','PARTITION','OVER','CASE','WHEN','THEN','ELSE','END',
+            'BETWEEN','IN','NOT','NULL','IS','DISTINCT','INTERVAL','DAY','TRUE','FALSE'
+        ]);
+        const sqlFunctions = new Set([
+            'COUNT','SUM','AVG','MAX','MIN','COUNTIF','SAFE_DIVIDE','LEAST','GREATEST',
+            'ROUND','COALESCE','TIMESTAMP_MICROS','FORMAT_DATE','DATE_SUB','CURRENT_DATE',
+            'UNNEST','REGEXP_CONTAINS','LAG','PERCENT_RANK'
+        ]);
+        function escapeHtml(str) {
+            return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        }
+        document.querySelectorAll('pre[data-lang="SQL"] code').forEach(block => {
+            const text = block.textContent;
+            let html = '';
+            let i = 0;
+            while (i < text.length) {
+                if (text.slice(i, i + 2) === '--') {
+                    const end = text.indexOf('\n', i);
+                    const ce = end === -1 ? text.length : end;
+                    html += '<span class="sql-comment">' + escapeHtml(text.slice(i, ce)) + '</span>';
+                    i = ce;
+                } else if (text[i] === "'") {
+                    let j = i + 1;
+                    while (j < text.length && text[j] !== "'") j++;
+                    j++;
+                    html += '<span class="sql-string">' + escapeHtml(text.slice(i, j)) + '</span>';
+                    i = j;
+                } else if (/[A-Za-z_]/.test(text[i])) {
+                    let j = i;
+                    while (j < text.length && /[A-Za-z0-9_]/.test(text[j])) j++;
+                    const word = text.slice(i, j);
+                    if (sqlKeywords.has(word.toUpperCase())) {
+                        html += '<span class="sql-keyword">' + escapeHtml(word) + '</span>';
+                    } else if (sqlFunctions.has(word.toUpperCase())) {
+                        html += '<span class="sql-function">' + escapeHtml(word) + '</span>';
+                    } else {
+                        html += escapeHtml(word);
+                    }
+                    i = j;
+                } else if (/[0-9]/.test(text[i])) {
+                    let j = i;
+                    while (j < text.length && /[0-9.]/.test(text[j])) j++;
+                    html += '<span class="sql-number">' + escapeHtml(text.slice(i, j)) + '</span>';
+                    i = j;
+                } else {
+                    html += escapeHtml(text[i]);
+                    i++;
+                }
+            }
+            block.innerHTML = html;
+        });
+    })();
+
+    /* ── Interactive state classifier ── */
+    (function() {
+        const sliders = {
+            breadth: document.getElementById('breadth-slider'),
+            depth: document.getElementById('depth-slider'),
+            progression: document.getElementById('progression-slider'),
+            clustering: document.getElementById('clustering-slider')
+        };
+        const vals = {
+            breadth: document.getElementById('breadth-val'),
+            depth: document.getElementById('depth-val'),
+            progression: document.getElementById('progression-val'),
+            clustering: document.getElementById('clustering-val')
+        };
+        const resultState = document.getElementById('result-state');
+        const resultConf = document.getElementById('result-confidence');
+        const resultAction = document.getElementById('result-action');
+
+        if (!sliders.breadth) return;
+
+        function classify(b, d, p, c) {
+            if (p >= 8) return { state: 'Engaged (Committed)', action: 'Support onboarding, confirmation, and post-conversion confidence.' };
+            if (p >= 6 && d >= 4) return { state: 'Hesitant', action: 'Reduce fields, clarify next step, add reassurance around process and commitment.' };
+            if (b >= 2 && b <= 4 && d >= 7 && c >= 7 && p >= 6) return { state: 'Focused Evaluator', action: 'Reduce distractions, shorten path to contact / purchase.' };
+            if (d >= 6 && c >= 5 && p >= 4 && p <= 6) return { state: 'Evaluator', action: 'Add case studies, implementation details, FAQs, and proof elements.' };
+            if (b >= 4 && b <= 7 && c >= 5 && p >= 3 && p <= 5) return { state: 'Comparator', action: 'Clarify differentiation, side-by-side proof, and concise summaries.' };
+            if (p <= 3 && d >= 4 && d <= 6 && b >= 3) return { state: 'Stalled', action: 'Simplify navigation, reduce loops, add stronger recommendation pathways.' };
+            if (b >= 4 && b <= 7 && d >= 3 && d <= 6) return { state: 'Explorer', action: 'Strengthen pathways from broad discovery content into relevant offers.' };
+            if (b >= 6 && d <= 3 && c <= 3) return { state: 'Scanner', action: 'Add guided entry and clearer value proposition above the fold.' };
+            if (b <= 2 && d <= 2 && p === 0) return { state: 'Mismatch', action: 'Review traffic source quality and landing page relevance.' };
+            return { state: 'Explorer', action: 'Strengthen pathways from broad discovery content into relevant offers.' };
+        }
+
+        function confidence(b, d, p, c) {
+            let score = 0;
+            const signals = (b > 0 ? 1 : 0) + (d > 0 ? 1 : 0) + (p > 0 ? 1 : 0) + (c > 0 ? 1 : 0);
+            score += signals >= 4 ? 2 : signals >= 3 ? 1 : 0;
+            score += p >= 6 ? 2 : p >= 3 ? 1 : 0;
+            score += (d >= 5 && b >= 3) ? 2 : (d >= 3 || b >= 3) ? 1 : 0;
+            score += (b + d + p + c) >= 20 ? 2 : (b + d + p + c) >= 12 ? 1 : 0;
+            return score >= 6 ? 'High' : score >= 3 ? 'Medium' : 'Low';
+        }
+
+        function update() {
+            const b = parseInt(sliders.breadth.value);
+            const d = parseInt(sliders.depth.value);
+            const p = parseInt(sliders.progression.value);
+            const c = parseInt(sliders.clustering.value);
+            vals.breadth.textContent = b;
+            vals.depth.textContent = d;
+            vals.progression.textContent = p;
+            vals.clustering.textContent = c;
+            const result = classify(b, d, p, c);
+            resultState.textContent = result.state;
+            resultConf.textContent = 'Confidence: ' + confidence(b, d, p, c);
+            resultAction.textContent = result.action;
+        }
+
+        Object.values(sliders).forEach(s => s.addEventListener('input', update));
+        update();
+    })();
 </script>
 
 </body>
