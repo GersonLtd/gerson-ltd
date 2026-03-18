@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Behaviour Intelligence Framework</title>
+    <title>Behaviour Intelligence Framework &ndash; Gerson Ltd</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
@@ -694,11 +694,28 @@
 
         /* ── Responsive: large phone ── */
         @media (max-width: 768px) {
-            .container { padding: 0.5rem; }
-            main { padding: 0 16px 24px 16px; border-radius: 14px; }
-            h1 { margin: 0 -16px 1.5rem -16px; padding: 2rem 16px 1.5rem; font-size: 1.65rem; }
+            .container { padding: 0; }
+            main {
+                padding: 0 16px 24px 16px;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            h1 {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                margin: 0;
+                padding: calc(1.1rem + env(safe-area-inset-top)) 16px 1rem;
+                font-size: 1.65rem;
+                z-index: 250;
+                border-radius: 0;
+                box-shadow: 0 6px 20px rgba(10, 22, 50, 0.25);
+            }
+            #orientation { margin-top: 6em; }
             h1 .hero-sub { font-size: 0.85rem; }
-            h2 { font-size: 1.4rem; margin-top: 2.5rem; }
+            h2 { font-size: 1.4rem; margin-top: 2.5rem; scroll-margin-top: 7em; }
             h3 { font-size: 1.15rem; }
             p, li { font-size: 0.98rem; }
             .flow-diagram { flex-direction: column; gap: 0; }
@@ -723,8 +740,8 @@
 
         /* ── Responsive: small phone ── */
         @media (max-width: 480px) {
-            main { padding: 0 12px 20px 12px; border-radius: 12px; }
-            h1 { margin: 0 -12px 1.25rem -12px; padding: 1.5rem 12px 1.25rem; font-size: 1.4rem; }
+            main { padding: 0 12px 20px 12px; border-radius: 0; }
+            h1 { padding: calc(0.95rem + env(safe-area-inset-top)) 12px 0.9rem; font-size: 1.4rem; }
             h1 .hero-sub { font-size: 0.78rem; }
             h2 { font-size: 1.25rem; }
             .flow-node { padding: 0.5rem 0.85rem; font-size: 0.8rem; }
@@ -787,7 +804,7 @@
     </aside>
 
     <main>
-        <h1>Behaviour Intelligence Framework<span class="hero-sub">Strategic Analytics</span></h1>
+        <h1>Behaviour Intelligence Framework<span class="hero-sub">Gerson Ltd &middot; Strategic Analytics</span></h1>
 
         <h2 id="orientation">1. Orientation</h2>
         
